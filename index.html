@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budget & Spending Coach</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">B</div>
+        <div>
+          <h1>Budget & Spending Coach</h1>
+          <p>Student finance tracker</p>
+        </div>
+      </div>
+
+      <nav class="nav-menu" aria-label="Main navigation">
+        <button class="nav-link active" data-page="dashboard">Dashboard</button>
+        <button class="nav-link" data-page="income">Add Income</button>
+        <button class="nav-link" data-page="expense">Add Expense</button>
+        <button class="nav-link" data-page="categories">Categories</button>
+        <button class="nav-link" data-page="monthly">Monthly Summary</button>
+        <button class="nav-link" data-page="transactions">Transactions</button>
+        <button class="nav-link" data-page="about">About Project</button>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section id="dashboard" class="page active">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">Personal finance</p>
+            <h2>Budget & Spending Coach</h2>
+            <p class="subtitle">Simple personal finance tracker for students</p>
+          </div>
+          <div class="month-pill" id="currentMonthLabel">Current month</div>
+        </div>
+
+        <div class="summary-grid">
+          <article class="summary-card income-card">
+            <span class="card-label">Total Income</span>
+            <strong id="totalIncome">0 PLN</strong>
+            <small>Money added this month and overall records</small>
+          </article>
+          <article class="summary-card expense-card">
+            <span class="card-label">Total Expenses</span>
+            <strong id="totalExpenses">0 PLN</strong>
+            <small>All tracked spending</small>
+          </article>
+          <article class="summary-card balance-card">
+            <span class="card-label">Remaining Balance</span>
+            <strong id="remainingBalance">0 PLN</strong>
+            <small>Income minus expenses</small>
+          </article>
+          <article class="summary-card count-card">
+            <span class="card-label">Transactions</span>
+            <strong id="transactionCount">0</strong>
+            <small>Income and expense records</small>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="panel chart-panel">
+            <div class="panel-header">
+              <div>
+                <h3>Spending by Category</h3>
+                <p>Simple visual breakdown of expenses</p>
+              </div>
+            </div>
+            <div class="chart-layout">
+              <div class="donut-card">
+                <div class="donut-chart" id="donutChart">
+                  <span id="donutCenterText">0 PLN</span>
+                </div>
+                <p>Expense share</p>
+              </div>
+              <div id="dashboardCategoryChart" class="bar-chart"></div>
+            </div>
+          </article>
+
+          <article class="panel advice-panel">
+            <div class="panel-header">
+              <div>
+                <h3>Coach Advice</h3>
+                <p>A short message based on your balance</p>
+              </div>
+            </div>
+            <div id="financialAdvice" class="advice-box good">
+              Good job! You still have money left this month.
+            </div>
+            <div class="quick-actions">
+              <button class="secondary-button" data-page-target="income">Add income</button>
+              <button class="primary-button" data-page-target="expense">Add expense</button>
+            </div>
+          </article>
+        </div>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <h3>Recent Transactions</h3>
+              <p>Latest income and expense records</p>
+            </div>
+            <button class="text-button" data-page-target="transactions">View all</button>
+          </div>
+          <div id="recentTransactions" class="transaction-list compact-list"></div>
+        </article>
+      </section>
+
+      <section id="income" class="page">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">Income</p>
+            <h2>Add Income</h2>
+            <p class="subtitle">Record money from scholarship, work, family support, or freelance tasks.</p>
+          </div>
+        </div>
+
+        <div class="form-layout">
+          <form id="incomeForm" class="panel form-card">
+            <label for="incomeSource">Income source</label>
+            <input id="incomeSource" type="text" placeholder="Example: Scholarship">
+
+            <label for="incomeAmount">Amount (PLN)</label>
+            <input id="incomeAmount" type="number" min="0" step="0.01" placeholder="Example: 1200">
+
+            <label for="incomeDate">Date</label>
+            <input id="incomeDate" type="date">
+
+            <p id="incomeMessage" class="form-message"></p>
+            <button type="submit" class="primary-button full-button">Add Income</button>
+          </form>
+
+          <aside class="panel help-panel">
+            <h3>Example income sources</h3>
+            <ul class="simple-list">
+              <li>Scholarship</li>
+              <li>Part-time job</li>
+              <li>Family support</li>
+              <li>Freelance work</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section id="expense" class="page">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">Expenses</p>
+            <h2>Add Expense</h2>
+            <p class="subtitle">Track daily spending and connect it to a clear category.</p>
+          </div>
+        </div>
+
+        <div class="form-layout">
+          <form id="expenseForm" class="panel form-card">
+            <label for="expenseTitle">Expense title</label>
+            <input id="expenseTitle" type="text" placeholder="Example: Lunch">
+
+            <label for="expenseCategory">Category</label>
+            <select id="expenseCategory">
+              <option value="">Select category</option>
+            </select>
+
+            <label for="expenseAmount">Amount (PLN)</label>
+            <input id="expenseAmount" type="number" min="0" step="0.01" placeholder="Example: 35">
+
+            <label for="expenseDate">Date</label>
+            <input id="expenseDate" type="date">
+
+            <p id="expenseMessage" class="form-message"></p>
+            <button type="submit" class="primary-button full-button">Add Expense</button>
+          </form>
+
+          <aside class="panel help-panel">
+            <h3>Why categories matter</h3>
+            <p>Categories help you see which part of student life uses the largest part of your budget.</p>
+            <div class="category-chip-list" id="expenseCategoryChips"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="categories" class="page">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">Breakdown</p>
+            <h2>Categories</h2>
+            <p class="subtitle">Expense categories with amounts, percentages, and progress bars.</p>
+          </div>
+        </div>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <h3>Category Spending</h3>
+              <p>Updates automatically after adding or deleting expenses</p>
+            </div>
+          </div>
+          <div id="categoryList" class="category-list"></div>
+        </article>
+      </section>
+
+      <section id="monthly" class="page">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">Monthly overview</p>
+            <h2>Monthly Summary</h2>
+            <p class="subtitle">Choose a month and review income, expenses, and balance.</p>
+          </div>
+          <label class="month-selector">
+            Select month
+            <input id="monthSelector" type="month">
+          </label>
+        </div>
+
+        <div class="summary-grid monthly-grid">
+          <article class="summary-card income-card">
+            <span class="card-label">Monthly Income</span>
+            <strong id="monthlyIncome">0 PLN</strong>
+          </article>
+          <article class="summary-card expense-card">
+            <span class="card-label">Monthly Expenses</span>
+            <strong id="monthlyExpenses">0 PLN</strong>
+          </article>
+          <article class="summary-card balance-card">
+            <span class="card-label">Monthly Balance</span>
+            <strong id="monthlyBalance">0 PLN</strong>
+          </article>
+          <article class="summary-card count-card">
+            <span class="card-label">Most Expensive Category</span>
+            <strong id="monthlyTopCategory">No expenses</strong>
+          </article>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="panel">
+            <div class="panel-header">
+              <div>
+                <h3>Monthly Records</h3>
+                <p>Number of income and expense records</p>
+              </div>
+            </div>
+            <div class="record-stats">
+              <div>
+                <span id="monthlyIncomeRecords">0</span>
+                <p>Income records</p>
+              </div>
+              <div>
+                <span id="monthlyExpenseRecords">0</span>
+                <p>Expense records</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="panel advice-panel">
+            <div class="panel-header">
+              <div>
+                <h3>Monthly Advice</h3>
+                <p>Simple message for the selected month</p>
+              </div>
+            </div>
+            <div id="monthlyAdvice" class="advice-box good">
+              Great! You are managing your monthly budget well.
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="transactions" class="page">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">Records</p>
+            <h2>Transactions</h2>
+            <p class="subtitle">All income and expense records saved in your browser.</p>
+          </div>
+        </div>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <h3>All Transactions</h3>
+              <p>Delete a record to update all summaries immediately</p>
+            </div>
+          </div>
+          <div id="allTransactions" class="transaction-list"></div>
+        </article>
+      </section>
+
+      <section id="about" class="page">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">Project explanation</p>
+            <h2>About Project</h2>
+            <p class="subtitle">A simple student presentation page for the application idea.</p>
+          </div>
+        </div>
+
+        <div class="about-grid">
+          <article class="panel about-card">
+            <h3>Project Purpose</h3>
+            <p>Budget & Spending Coach is a simple web application designed to help students and young adults manage their personal finances. The app allows users to add income and expenses, organize expenses by category, calculate total income and spending, and view monthly budget summaries.</p>
+          </article>
+
+          <article class="panel about-card">
+            <h3>Target Users</h3>
+            <p>The main users are university students and young adults who manage a limited monthly budget and need a clear view of where their money goes.</p>
+          </article>
+
+          <article class="panel about-card">
+            <h3>Problem Identification</h3>
+            <p>Many students have difficulty managing their money effectively. They often spend without tracking where their money goes. This can lead to poor budgeting decisions. A simple and visual budgeting tool can help students understand their spending habits better.</p>
+          </article>
+
+          <article class="panel about-card">
+            <h3>Interdisciplinary Aspect</h3>
+            <p>This project combines Computer Science with Economics and Personal Finance. The Computer Science part includes creating forms, calculations, data storage, dashboard design, and user interaction. The Finance part includes budgeting, expense tracking, spending categories, and monthly financial analysis.</p>
+          </article>
+        </div>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <h3>Development Plan</h3>
+              <p>Main stages followed during the project</p>
+            </div>
+          </div>
+          <div class="plan-list">
+            <div><strong>Analysis</strong><span>Define user needs and identify main features.</span></div>
+            <div><strong>Design</strong><span>Create simple interface and page structure.</span></div>
+            <div><strong>Implementation</strong><span>Develop forms, calculations, dashboard, and summaries.</span></div>
+            <div><strong>Testing</strong><span>Test validation, totals, category logic, and localStorage.</span></div>
+            <div><strong>Improvement</strong><span>Improve dashboard clarity and add simple financial advice.</span></div>
+          </div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-header">
+            <div>
+              <h3>Project Management Method: Kanban</h3>
+              <p>Tasks are shown on a visual board and move through workflow stages.</p>
+            </div>
+          </div>
+          <p class="kanban-intro">Kanban is a visual project management method. Tasks are shown on a board and move through stages such as To Do, In Progress, and Done. It helps the team see the workflow clearly, track progress, and organize the project more effectively.</p>
+          <div id="kanbanBoard" class="kanban-board"></div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
